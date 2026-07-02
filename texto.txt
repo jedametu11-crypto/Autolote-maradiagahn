@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autolote Maradiaga</title>
+    <style>
+        /* ESTILOS AMARILLO Y NEGRO PRESTIGIO */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #050505 !important;
+            background-image: 
+                radial-gradient(at 50% 0%, rgba(255, 204, 0, 0.15) 0px, transparent 50%),
+                linear-gradient(45deg, #090909 25%, #0e0e0e 25%, #0e0e0e 50%, #090909 50%, #090909 75%, #0e0e0e 75%, #0e0e0e 100%);
+            background-size: 100% 100%, 18px 18px;
+            color: #ffffff !important;
+            font-family: '-apple-system', BlinkMacSystemFont, sans-serif;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 16px 20px;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-am {
+            font-size: 32px;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-title {
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3.5px;
+            color: #ffcc00;
+        }
+
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background-color: #ffcc00;
+            border-radius: 2px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 12px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 15px 15px 15px 42px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #ffcc00;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffcc00;
+        }
+
+        .filter-btn {
+            background: #161616;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            padding: 15px;
+            border-radius: 16px;
+            color: #ffcc00;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #ffcc00;
+            color: #000000;
+        }
+
+        .filters-panel {
+            width: 100%;
+            max-width: 400px;
+            background: #121212;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 25px;
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .filters-panel.show {
+            display: flex;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 11px;
+            color: #a1a1aa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .filter-group select {
+            width: 100%;
+            background: #1c1c1e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-transform: uppercase;
+            border-left: 4px solid #ffcc00;
+            padding-left: 12px;
+        }
+
+        .contenedor-catalogo {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* COMPONENTE SLIDER SLIDE-BY-SLIDE RE CORTADO */
+        .car-card {
+            background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            border-radius: 28px;
+            padding: 22px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 240px; /* Altura ideal recortada para celular */
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Recorta los bordes negros de captura de Facebook automáticamente */
+            object-position: center 35%; /* Centra el recorte para enfocar perfectamente el auto */
+        }
+
+        /* Flechas de Navegación */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 254, 255, 0.1);
+            color: #ffcc00;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 15;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .slider-arrow:active {
+            background: #ffcc00;
+            color: #000000;
+        }
+
+        .arrow-left { left: 10px; }
+        .arrow-right { right: 10px; }
+
+        /* Puntos Indicadores Inferiores */
+        .slider-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 15;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #ffcc00;
+            width: 18px;
+            border-radius: 4px;
+        }
+
+        .car-title {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .car-specs {
+            font-size: 13px;
+            color: #a1a1aa;
+            margin-bottom: 16px;
+        }
+
+        .car-price {
+            font-size: 21px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        .button-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-reserve {
+            width: 100%;
+            background: #1c1c1e;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .btn-contact {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
+            color: #000000 !important;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 5px 20px rgba(255, 204, 0, 0.25);
+        }
+
+        /* SECCIÓN DE COMENTARIOS PUBLICADOS */
+        .comments-section {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .comment-box {
+            background: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comment-name {
+            font-weight: 800;
+            color: #ffcc00;
+            font-size: 14px;
+        }
+
+        .comment-stars {
+            color: #ff9500;
+            font-size: 12px;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #e5e5ea;
+            line-height: 1.4;
+        }
+
+        /* FORMULARIO PARA QUE EL CLIENTE COMENTE */
+        .comment-form {
+            background: rgba(28, 28, 30, 0.6);
+            border: 1px solid rgba(255, 204, 0, 0.1);
+            border-radius: 24px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .comment-form input, .comment-form textarea {
+            width: 100%;
+            background: #0f0f0f;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-size: 13px;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+
+        .comment-form select {
+            width: 100%;
+            background: #0f0f0f;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 12px;
+            color: #ffcc00;
+            font-size: 13px;
+            margin-bottom: 14px;
+            outline: none;
+        }
+
+        .btn-submit-comment {
+            width: 100%;
+            background: #1c1c1e;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        /* MENÚ LATERAL */
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            right: -290px;
+            width: 290px;
+            height: 100%;
+            background: #0d0d0d;
+            border-left: 1px solid rgba(255, 204, 0, 0.3);
+            box-shadow: -15px 0 40px rgba(0,0,0,0.9);
+            z-index: 2000;
+            transition: right 0.4s ease;
+            padding: 35px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu.active {
+            right: 0;
+        }
+
+        .close-btn {
+            align-self: flex-end;
+            font-size: 22px;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+
+        .menu-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            flex-grow: 1;
+            margin-top: 20px;
+        }
+
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .menu-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .admin-panel {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            border: 1px dashed #ffcc00;
+            padding: 15px;
+            border-radius: 16px;
+            background: #121212;
+        }
+
+        .admin-panel.show {
+            display: block;
+        }
+
+        .admin-panel h3 {
+            color: #ffcc00;
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .moderation-title {
+            font-size: 11px;
+            color: #ffcc00;
+            text-transform: uppercase;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 10px;
+        }
+
+        .pending-box {
+            background: #1c1c1e;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .pending-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-approve {
+            flex: 1;
+            background: #34c759;
+            color: black;
+            border: none;
+            padding: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            flex: 1;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .dev-credit {
+            font-size: 12px;
+            color: #ffcc00;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <div class="navbar">
+        <div class="logo-area">
+            <span class="logo-am">AM</span>
+            <div class="logo-text">
+                <span class="brand-title">AUTOLOTE</span>
+                <span class="brand-sub">MARADIAGA</span>
+            </div>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- Menú Lateral -->
+    <div id="side-menu" class="sidebar-menu">
+        <div class="close-btn" onclick="toggleMenu()">✕</div>
+        <div class="menu-content-wrapper">
+            <div class="menu-links">
+                <a href="#" onclick="toggleMenu()">🚗 Inventario Disponible</a>
+                <a href="#" onclick="alert('Planes de financiamiento inmediato.')">🤝 Financiamiento</a>
+                <a href="https://maps.google.com" target="_blank">📍 Ubicación Cortés</a>
+                <a href="tel:+50492574027">📞 WhatsApp Plantel</a>
+                <a href="#" id="admin-nav-btn" onclick="handleAdminSession()" style="color: #ffcc00; border-color: rgba(255,204,0,0.2);">🔐 Acceso Admin</a>
+            </div>
+
+            <div class="admin-panel" id="backoffice-panel">
+                <h3>🛠️ Panel Anthony</h3>
+                <div class="moderation-title">Comentarios en Espera ⏳</div>
+                <div id="pending-comments-list"></div>
+            </div>
+        </div>
+        <div class="dev-credit">By Anthony Meza</div>
+    </div>
+
+    <!-- Buscador e Indicador de Filtros -->
+    <div class="search-container">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Buscar marca o modelo...">
+        </div>
+        <div class="filter-btn" id="filter-trigger" onclick="toggleFiltersPanel()">Filtros ▼</div>
+    </div>
+
+    <!-- Panel de Filtros -->
+    <div class="filters-panel" id="filters-panel">
+        <div class="filter-group">
+            <label>Marca</label>
+            <select id="filter-brand" onchange="applyFilters()">
+                <option value="all">Todas las Marcas</option>
+                <option value="kia">Kia</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Modelo</label>
+            <select id="filter-model" onchange="applyFilters()">
+                <option value="all">Todos los Modelos</option>
+                <option value="sorento">Sorento</option>
+            </select>
+        </div>
+    </div>
+
+    <h2 class="section-title">Naves Disponibles</h2>
+
+    <div class="contenedor-catalogo">
+        <!-- VEHÍCULO CON SLIDER INTEGRADO (KIA SORENTO DE TUS FOTOS) -->
+        <div class="car-card" data-marca="kia" data-modelo="sorento">
+            
+            <!-- CONTENEDOR DEL SLIDER -->
+            <div class="slider-container" id="slider-sorento">
+                <div class="slider-arrow arrow-left" onclick="moveSlide('slider-sorento', -1)">❮</div>
+                <div class="slider-arrow arrow-right" onclick="moveSlide('slider-sorento', 1)">❯</div>
+                
+                <div class="slider-wrapper">
+                    <!-- Foto 1: Frente (IMG_0016.jpg) -->
+                    <div class="slide"><img src="https://i.ibb.co/VWV3p6t/sorento1.jpg" alt="Frente Sorento"></div>
+                    <!-- Foto 2: Perfil Completo (IMG_0020.jpg) -->
+                    <div class="slide"><img src="https://i.ibb.co/68v8XmC/sorento5.jpg" alt="Perfil Sorento"></div>
+                    <!-- Foto 3: Tres Cuartos (IMG_0021.jpg) -->
+                    <div class="slide"><img src="https://i.ibb.co/r2gPjZf/sorento6.jpg" alt="Ángulo Sorento"></div>
+                    <!-- Foto 4: Cabina Interior (IMG_0019.jpg) -->
+                    <div class="slide"><img src="https://i.ibb.co/fQG4tF6/sorento4.jpg" alt="Interior Sorento"></div>
+                    <!-- Foto 5: Asientos Cuero traseros (IMG_0017.jpg) -->
+                    <div class="slide"><img src="https://i.ibb.co/QkW0M2w/sorento2.jpg" alt="Asientos traseros"></div>
+                    <!-- Foto 6: Puerta y Mandos (IMG_0018.jpg) -->
+                    <div class="slide"><img src="https://i.ibb.co/SccxVq9/sorento3.jpg" alt="Puerta Sorento"></div>
+                </div>
+
+                <!-- Puntitos Indicadores -->
+                <div class="slider-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <!-- DETALLES DEL AUTO -->
+            <h3 class="car-title">Kia Sorento</h3>
+            <p class="car-specs">Año: 2014 • 98,000 km • Motor 2.4L Eco • 3 Filas de Asientos • Cuero Nítido</p>
+            <p class="car-price">Lps. 235,000</p>
+            
+            <div class="button-group">
+                <button class="btn-reserve" onclick="alert('Apartado con Lps. 5,000')">Reservar Unidad</button>
+                <a href="https://wa.me/50492574027?text=Me%20interesa%20la%20Kia%20Sorento%20Plateada" class="btn-contact">Contactar al WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE COMENTARIOS -->
+    <div class="comments-section">
+        <h2 class="section-title" style="margin-bottom: 12px;">Opiniones Reales</h2>
+        
+        <!-- Lista de comentarios aprobados (Inicia vacía y limpia) -->
+        <div id="approved-comments-list"></div>
+
+        <!-- Formulario para dejar reseña -->
+        <div class="comment-form">
+            <h3 style="font-size: 14px; margin-bottom: 10px; color: #ffcc00; text-transform: uppercase;">Contanos tu Experiencia</h3>
+            <input type="text" id="client-name" placeholder="Tu Nombre Completo">
+            <textarea id="client-text" rows="3" placeholder="¿Qué te pareció nuestro servicio y tu nueva nave?"></textarea>
+            <select id="client-stars">
+                <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (Excelente)</option>
+                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (Muy Bueno)</option>
+                <option value="⭐⭐⭐">⭐⭐⭐ (Bueno)</option>
+            </select>
+            <button class="btn-submit-comment" onclick="submitToModeration()">Enviar Reseña para Revisión</button>
+        </div>
+    </div>
+
+    <script>
+        let isAdminLoggedIn = false;
+
+        let approvedComments = JSON.parse(localStorage.getItem('approved_comments')) || [];
+        let pendingComments = JSON.parse(localStorage.getItem('pending_comments')) || [];
+
+        window.onload = function() {
+            renderApprovedComments();
+            renderPendingComments();
+            initSliders();
+        };
+
+        // LÓGICA DE FUNCIONAMIENTO PARA EL SLIDER DESLIZABLE
+        const sliderStates = {};
+
+        function initSliders() {
+            document.querySelectorAll('.slider-container').forEach(slider => {
+                const id = slider.id;
+                sliderStates[id] = { currentIdx: 0 };
+                
+                // Soporte para deslizar con el dedo (Touch Swipe) en celular
+                let startX = 0;
+                slider.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive: true});
+                slider.addEventListener('touchend', e => {
+                    let diffX = startX - e.changedTouches[0].clientX;
+                    if (Math.abs(diffX) > 50) {
+                        moveSlide(id, diffX > 0 ? 1 : -1);
+                    }
+                }, {passive: true});
+            });
+        }
+
+        function moveSlide(sliderId, direction) {
+            const slider = document.getElementById(sliderId);
+            const wrapper = slider.querySelector('.slider-wrapper');
+            const slides = slider.querySelectorAll('.slide');
+            const dots = slider.querySelectorAll('.dot');
+            
+            let state = sliderStates[sliderId];
+            state.currentIdx += direction;
+
+            if (state.currentIdx >= slides.length) state.currentIdx = 0;
+            if (state.currentIdx < 0) state.currentIdx = slides.length - 1;
+
+            wrapper.style.transform = `translateX(-${state.currentIdx * 100}%)`;
+
+            // Actualizar puntito activo
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === state.currentIdx);
+            });
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('side-menu');
+            if (menu) menu.classList.toggle('active');
+        }
+
+        function toggleFiltersPanel() {
+            const panel = document.getElementById('filters-panel');
+            const btn = document.getElementById('filter-trigger');
+            panel.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        function handleAdminSession() {
+            const adminPanel = document.getElementById('backoffice-panel');
+            const navBtn = document.getElementById('admin-nav-btn');
+
+            if (!isAdminLoggedIn) {
+                const password = prompt("Ingrese la clave de Administrador:");
+                if (password === "1234") {
+                    alert("¡Acceso concedido, Anthony!");
+                    isAdminLoggedIn = true;
+                    adminPanel.classList.add('show');
+                    navBtn.innerHTML = "🔓 Cerrar Sesión";
+                    renderPendingComments();
+                } else if (password !== null) {
+                    alert("❌ Contraseña incorrecta.");
+                }
+            } else {
+                isAdminLoggedIn = false;
+                adminPanel.classList.remove('show');
+                navBtn.innerHTML = "🔐 Acceso Admin";
+                alert("Sesión cerrada.");
+            }
+        }
+
+        function submitToModeration() {
+            const name = document.getElementById('client-name').value.trim();
+            const text = document.getElementById('client-text').value.trim();
+            const stars = document.getElementById('client-stars').value;
+
+            if (name === "" || text === "") {
+                alert("Por favor rellena tu nombre y el comentario.");
+                return;
+            }
+
+            const newComment = { id: Date.now(), name, text, stars };
+            pendingComments.push(newComment);
+            localStorage.setItem('pending_comments', JSON.stringify(pendingComments));
+
+            alert("¡Gracias! Tu reseña se mostrará en cuanto el administrador la apruebe.");
+            document.getElementById('client-name').value = "";
+            document.getElementById('client-text').value = "";
+            renderPendingComments();
+        }
+
+        function renderApprovedComments() {
+            const listContainer = document.getElementById('approved-comments-list');
+            if (approvedComments.length === 0) {
+                listContainer.innerHTML = `<p style="font-size:13px; color:#a1a1aa; text-align:center; padding: 15px 0;">No hay opiniones públicas todavía.</p>`;
+                return;
+            }
+            let html = "";
+            approvedComments.forEach(c => {
+                html += `
+                    <div class="comment-box">
+                        <div class="comment-header">
+                            <span class="comment-name">${c.name}</span>
+                            <span class="comment-stars">${c.stars}</span>
+                        </div>
+                        <p class="comment-text">${c.text}</p>
+                    </div>`;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function renderPendingComments() {
+            const pendingContainer = document.getElementById('pending-comments-list');
+            if (!pendingContainer) return;
+            if (pendingComments.length === 0) {
+                pendingContainer.innerHTML = `<p style="font-size:12px; color:#a1a1aa; text-align:center;">No hay comentarios pendientes.</p>`;
+                return;
+            }
+            let html = "";
+            pendingComments.forEach(c => {
+                html += `
+                    <div class="pending-box">
+                        <strong>${c.name}</strong> (${c.stars})<br>
+                        <span>"${c.text}"</span>
+                        <div class="pending-actions">
+                            <button class="btn-approve" onclick="approveComment(${c.id})">Aprobar</button>
+                            <button class="btn-reject" onclick="rejectComment(${c.id})">Eliminar</button>
+                        </div>
+                    </div>`;
+            });
+            pendingContainer.innerHTML = html;
+        }
+
+        function approveComment(id) {
+            const item = pendingComments.find(c => c.id === id);
+            approvedComments.push(item);
+            pendingComments = pendingComments.filter(c => c.id !== id);
+            localStorage.setItem('approved_comments', JSON.stringify(approvedComments));
+            localStorage.setItem('pending_comments', JSON.stringify(pendingComments));
+            renderApprovedComments();
+            renderPendingComments();
+        }
+
+        function rejectComment(id) {
+            pendingComments = pendingComments.filter(c => c.id !== id);
+            localStorage.setItem('pending_comments', JSON.stringify(pendingComments));
+            renderPendingComments();
+        }
+
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.car-card').forEach(card => {
+                const title = card.querySelector('.car-title').innerText.toLowerCase();
+                card.style.display = title.includes(query) ? "block" : "none";
+            });
+        });
+
+        function applyFilters() {
+            const brandSel = document.getElementById('filter-brand').value;
+            const modelSel = document.getElementById('filter-model').value;
+            document.querySelectorAll('.car-card').forEach(card => {
+                const b = card.getAttribute('data-marca');
+                const m = card.getAttribute('data-modelo');
+                let match = true;
+                if (brandSel !== 'all' && b !== brandSel) match = false;
+                if (modelSel !== 'all' && m !== modelSel) match = false;
+                card.style.display = match ? "block" : "none";
+            });
+        }
+    </script>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autolote Maradiaga</title>
+    <style>
+        /* ESTILOS ORIGINALES Y NUEVOS AJUSTES */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #050505 !important;
+            background-image: radial-gradient(at 50% 0%, rgba(255, 204, 0, 0.15) 0px, transparent 50%), linear-gradient(45deg, #090909 25%, #0e0e0e 25%, #0e0e0e 50%, #090909 50%, #090909 75%, #0e0e0e 75%, #0e0e0e 100%);
+            background-size: 100% 100%, 18px 18px;
+            color: #ffffff !important;
+            font-family: '-apple-system', BlinkMacSystemFont, sans-serif;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+      
+        /* NUEVO: ESTILO DEL BOTÓN FLOTANTE (AMARILLO Y NEGRO) */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%);
+            color: #000000 !important;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            box-shadow: 0 4px 20px rgba(255, 204, 0, 0.3);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        /* Tus estilos previos se mantienen (Navbar, Car-card, etc.) */
+        .navbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 400px; padding: 16px 20px; background: rgba(18, 18, 18, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255, 204, 0, 0.2); border-radius: 20px; margin-bottom: 25px; }
+        .logo-am { font-size: 32px; font-weight: 900; font-style: italic; background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .car-card { background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%); border: 1px solid rgba(255, 204, 0, 0.15); border-radius: 28px; padding: 22px; width: 100%; max-width: 400px; margin-bottom: 25px; }
+        .btn-contact { display: block; width: 100%; background: linear-gradient(135deg, #ffcc00 0%, #ff9500 100%); color: #000000 !important; border: none; padding: 16px; border-radius: 14px; font-size: 13px; font-weight: 900; text-decoration: none; text-align: center; text-transform: uppercase; }
+        .btn-reserve { width: 100%; background: #1c1c1e; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.15); padding: 16px; border-radius: 14px; font-size: 13px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px;}
+    </style>
+</head>
+<body>
+
+    <!-- BOTÓN FLOTANTE -->
+    <a href="https://wa.me/50492574027?text=Hola,%20vengo%20de%20la%20página%20web%20y%20quiero%20más%20información." class="whatsapp-float" target="_blank">
+        💬 CONSULTAR
+    </a>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo-area">
+            <span class="logo-am">AM</span>
+        </div>
+    </div>
+
+    <!-- Contenido del catálogo -->
+    <div class="car-card" data-marca="kia" data-modelo="sorento">
+        <h3 class="car-title">Kia Sorento</h3>
+        <p class="car-price" style="color: #ffcc00; font-weight: 900; margin-bottom: 15px;">Lps. 235,000</p>
+        
+        <div class="button-group">
+            <button class="btn-reserve" onclick="alert('Apartado con Lps. 5,000')">Reservar Unidad</button>
+            <!-- BOTÓN DINÁMICO CON ESTILO ORIGINAL -->
+            <a href="#" class="btn-contact contact-link" data-car="Kia Sorento">Contactar al WhatsApp</a>
+        </div>
+    </div>
+
+    <script>
+        // Lógica para los enlaces de WhatsApp dinámicos
+        document.querySelectorAll('.contact-link').forEach(link => {
+            const carName = link.getAttribute('data-car');
+            link.href = `https://wa.me/50492574027?text=Hola,%20estoy%20interesado%20en%20la%20${encodeURIComponent(carName)}%20que%20vi%20en%20su%20página.`;
+            link.target = "_blank";
+        });
+    </script> 
+            <div class="car-card">
+                <img src="${c.img}" style="width:100%; border-radius:15px; margin-bottom:10px;">
+                <h3>${c.name}</h3>
+                <p style="color:#ffcc00;">${c.price}</p>
+                <button onclick="deleteCar(${c.id})" style="background:red; color:white; border:none; padding:5px; margin-top:5px;">ELIMINAR</button>
+            </div>
+      
+
+</body>
+</html>
+</body>
+</html>
